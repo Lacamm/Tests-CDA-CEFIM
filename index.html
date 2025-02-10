@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionnaire de tâches</title>
+    <link href="styles/style.css" rel="stylesheet">
+    <script src="scripts/config.js" defer></script>
+    <script src="scripts/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Gestionnaire de tâches</h1>
+        <p>
+            Sur cette appli web, vous pouvez ajouter une tâche et gérer toutes celles déjà existantes
+        </p>
+    </header>
+    <main>
+        <!-- Tableau des taches-->
+        <section class="index-getion-taches">
+            <h2>Liste des tâches</h2>
+            <table id="index-table-entete">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Echéance</th>
+                        <th>Priorité</th>
+                        <th class="th-filtre"><button type="button" name="btn-filtre-statut" class="btn-filtre-statut">Statut</button></th>
+                        <th>Action</th><!-- Bouton de suppression -->
+                    </tr>
+                </thead> 
+                <tbody id="index-table-corps">
+                    <!-- Ajout dynamique des tâches-->
+                </tbody>
+            </table>
+        </section>
+        <!-- Ajout d'une tache -->
+        <section class="index-ajout-tache"> 
+            <h2>Ajouter une tâche</h2>
+            <!-- Formulaire correspondant -->
+            <form id="index-form">
+                <div>
+                    <div class="index-form-elem">
+                        <label for="titre">Titre</label>
+                        <input type="text" id="index-form-nom-tache" name="index-form-nom-tache" maxlength="100" placeholder="Nom de la tache" required>
+                    </div>
+                    <div class="index-form-elem">
+                        <label for="description">Description</label>
+                        <textarea id="index-form-description-tache" name="index-description-nom-tache" maxlength="500" placeholder="Description"></textarea>
+                    </div>
+                    <div class="index-form-elem">
+                        <label for="echeance">Echéance</label>
+                        <input type="date" id="index-form-echeance" name="index-form-echeance" required>
+                    </div>
+                    <div class="index-form-elem">
+                        <label for="priorite">Priorité</label>
+                        <select id="index-form-priorite" name="index-form-priorite" required>
+                            <option value="Basse">Basse</option>
+                            <option value="Moyenne" selected>Moyenne</option>
+                            <option value="Elevée">Elevée</option>
+                        </select>
+                    </div>
+                    <button type="submit" name="btnAjoutTache" class="btnAjoutTache">Ajouter</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <em>Lucas ALLAIN</em>
+        <p>Tests admission parcours CDA - CEFIM</p>
+    </footer>
+</body>
+</html>
