@@ -183,6 +183,10 @@ input, textarea {
     background-color: gray;
 }
 
+.Terminée:hover {
+    background-color: lightgray;
+}
+
 .th-titre {
     max-width: 300px;
 }

@@ -9,7 +9,8 @@
 /*********************************** Fonctions ***********************************/
 
 /**
- * Fonction qui permet de créer une tâche et de l'ajouter dans le tableau, avec l'option de pouvoir la supprimer
+ * Fonction qui permet de créer une tâche et de l'ajouter dans le tableau et l'enregistrer dans le 
+ * localStorage
  */
 function creerTache() {
     try {
@@ -39,6 +40,11 @@ function creerTache() {
 }
 
 
+/**
+ * Fonction qui permet d'afficher une tâche, de vérifier les valeurs des champs de la tâche
+ * pour appliquer le style correspondant, et l'option pour la supprimer
+ * @param {Object} tache 
+ */
 function afficherTache(tache) {
     // On prépare la nouvelle balise
     let tacheHTML = document.createElement("tr")
@@ -71,7 +77,6 @@ function afficherTache(tache) {
     // On insère le select avec la bonne valeur
     tacheHTML.querySelector(".index-table-statut").appendChild(statutSelect);
 
-    //tacheHTML.querySelector(".index-table-statut").value
     //Ajout d'un event pour mettre à jour le statut
     statutSelect.addEventListener("change", () => {
         updateTacheTerminee(tache, statutSelect.value)
@@ -88,6 +93,7 @@ function afficherTache(tache) {
     document.getElementById("index-table-corps").appendChild(tacheHTML)
 }
 
+
 /**
  * Fonction qui permet de récupérer la liste des tâches stockées localement
  * 
@@ -96,6 +102,7 @@ function afficherTache(tache) {
 function getTachesFromLocalStorage() {
     return JSON.parse(localStorage.getItem("ListeTaches")) || []
 }
+
 
 /**
  *  Fonction qui permet de charger toutes les tâches stockées dans le LocalStorage
@@ -125,6 +132,7 @@ function supprTache(tacheASuppr) {
     // Mise à jour du stockage
     localStorage.setItem("ListeTaches", JSON.stringify(updateListeTaches))
 }
+
 
 /**
  * Fonction qui gère l'affichage des tâches lorsqu'elles passent de "En cours" à "Terminée"
@@ -164,6 +172,7 @@ function updateTacheTerminee(tacheModifiee, nouveauStatut) {
     localStorage.setItem("ListeTaches", JSON.stringify(listeTaches))
 }
 
+
 /**
  * Fonctione qui charge la liste par défaut des taches dans le localStorage, 
  * pour qu'elles puissent avoir le même comportement que les autres
@@ -178,6 +187,35 @@ function loadTachesDef() {
     }
 }
 
+/**
+ * Fonction qui permet le filtrage suivant le statut des tâches
+ * @param {String} filtre 
+ */
+function fliterStatut(filtre){
+
+    // On récupère la liste des tâches affichées et leur données stockées pour y appliquer le filtrage
+    let listeTaches = getTachesFromLocalStorage()
+    let listeAffichée = document.getElementById('index-table-corps')
+
+    // On vide la liste affichée avant de la remplir à nouveau
+    listeAffichée.innerHTML = "" 
+
+    // On applique le nouveau filtre et réaffiche les tâche une à une si elles correspondent au filtre
+    if (filtre === "") {
+        filtre = "En cours"
+        listeTaches.filter(tache =>  tache.statut === filtre).forEach(afficherTache)
+    } else if (filtre === "En cours") {
+        filtre = "Terminée"
+        listeTaches.filter(tache =>  tache.statut === filtre).forEach(afficherTache)
+    }  else if (filtre === "Terminée") {
+        filtre = ""
+        listeTaches.forEach(afficherTache);
+    } 
+    
+    // Mise à jour de la variable globale
+    filtreSt = filtre
+}
+
 
 /**************************** Fonctionement principal ***************************/
 
@@ -187,9 +225,16 @@ loadTachesDef()
 // On charge les tâches qui sont dans le LocalStorage au lancement de l'appli
 document.addEventListener("DOMContentLoaded", chargerTaches)
 
-// Ici, on veut vérifier quand l'utilisateur appuie sur le bouton pour ajouter une tache 
+// On veut vérifier quand l'utilisateur appuie sur le bouton pour ajouter une tache 
 let form = document.getElementById("index-form")
 form.addEventListener("submit", (event) => {
     event.preventDefault() // On empêche le rechargement par défaut de la page
     creerTache()// Gère la création d'une tâche
+})
+
+// On veut savoir quand l'utilisateur appuie sur le bouton de filtrage par statut
+let btnFiltrage = document.getElementById("btn-filtre-statut")
+let filtreSt = "" // Variable globale pour savoir sur quel filtre on est
+btnFiltrage.addEventListener("click", () => {
+    fliterStatut(filtreSt)
 })
