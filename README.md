@@ -24,7 +24,7 @@ Pour ajouter une tâche, on remplit un formulaire. Un titre (input text de 100 c
 
  - Pistes d'améliorations
 
-.Ajouter plus de blocs try/catch avec des pop-ups pour mieux spécifier les erreurs à l'utilisateur
+.Ajouter plus de blocs try/catch avec des pop-ups pour mieux spécifier les erreurs à l'utilisateur à l'aide de console.log ou de pop ups
 
 .Modifier le bouton "Ajouter" pour rajouter un symbole + avec une bordure entre le symbole et le texte ? (Faire un logo ?)
 EX : 

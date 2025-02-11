@@ -180,7 +180,7 @@ input, textarea {
 }
 
 .Terminée {
-    background-color: grey;
+    background-color: gray;
 }
 
 .th-titre {
@@ -203,7 +203,6 @@ input, textarea {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
     }
 
     .index-ajout-tache {
