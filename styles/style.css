@@ -109,22 +109,22 @@ input, textarea {
     justify-content: center;
 }
 
-.th-filtre {
+.th-button {
     padding: 0;
 }
 
-.th-filtre:hover {
+.th-button:hover {
     background-color: white;
 }
 
- .btn-filtre-statut {
+ .btn-filtre-tri {
     all: unset;
     padding: 12px;
     margin: 0;
     text-align: left;
 }
 
-.index-table-statut {
+.index-table-tri {
     width: fit-content;
 }
 

@@ -188,6 +188,31 @@ function loadTachesDef() {
 }
 
 /**
+ * Fonction qui permet de trier les tâches selon leur dates d'échéance
+ */
+function triDate() {
+    // On récupère la liste des tâches affichées et leur données stockées pour y appliquer le tri par date
+    let listeTaches = getTachesFromLocalStorage()
+    let listeAffichée = document.getElementById('index-table-corps')
+
+    // On effectue le tri sur listeTaches en comparant à chaque fois 2 elements du tableau entre  eux
+    listeTaches.sort((a,b) => {
+        let dateA = new Date(a.date) // On récupère la date de la tâche a
+        let dateB = new Date(b.date) // On récupère la date de la tâche b
+        console.log(triAscendant)  
+        return triAscendant ? dateA - dateB : dateB - dateA // Condition ternaire pour gérer le tri si ascendant ou descendant
+        // Suivant l'ordre de tri, on inverse les 2 tâches ou on ne fait rien  
+    })
+
+    // On vide la liste affichée avant de la remplir avec les tâches triées
+    listeAffichée.innerHTML = "";
+    listeTaches.forEach(afficherTache);
+
+    // Mise à jour de la variable globale
+    triAscendant = !triAscendant
+}
+
+/**
  * Fonction qui permet le filtrage suivant le statut des tâches
  * @param {String} filtre 
  */
@@ -237,4 +262,11 @@ let btnFiltrage = document.getElementById("btn-filtre-statut")
 let filtreSt = "" // Variable globale pour savoir sur quel filtre on est
 btnFiltrage.addEventListener("click", () => {
     fliterStatut(filtreSt)
+})
+
+// On veut savoir quand l'utilisateur clique sur le bouton pour trier par date
+let btnTriDate = document.getElementById("btn-tri-date")
+let triAscendant = true // Variable globale pour connaître la méthode de tri de la date (du plus récent ou plus ancien)
+btnTriDate.addEventListener("click", () => {
+    triDate(triAscendant)
 })

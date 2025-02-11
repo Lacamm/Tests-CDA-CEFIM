@@ -36,6 +36,7 @@ EX :
 
 .Soit ajouter une scroll bar si la liste des tâches est trop longue pour le page, soit faire en sorte que le formulaire d'ajout descende dans la page en restant à droite et suis l'utilisateur suivant si il monte ou descend dans la page.
 
+.Une flèche vers le haut ou vers le bas pour donner une élément visuel du tri de date suivant si le tri est ascendant ou descendant
 
 
 . Création d'une session utilisateur avec login/mdp
