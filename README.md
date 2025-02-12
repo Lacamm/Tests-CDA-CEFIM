@@ -41,7 +41,15 @@ EX :
 
 . Création d'une session utilisateur avec login/mdp
 
+.Un système de tri plus puissant pour les priorités, voire carrément un filtrage
+
+.Faire en sorte que les filtrages et tris sur les différentes caractéristiques des tâches soient persistantes entres elles et qu'elles ne s'annulent pas dès qu'on choisit un nouveau filtrage/triage
+
 . Intégration d'un calendrier
+
+.Séparer les fichiers CSS et JS si d'autres pages venaient à être crées (ex : main.js, index.css, index.js, etc...).
+Le fichier script.js contiendrait uniquement des fonctions, et se serait les autres fichiers .js qui feraient des appels à ces fonctions suivant les pas sur laquelle on se trouve.
+On aurait style.css qui gèrerait des styles communs à toutes les pages, et des fichiers plus spécifiques à certaines avec leur styles à elles
 
 
  - Autres choses ?

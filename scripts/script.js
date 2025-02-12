@@ -198,8 +198,7 @@ function triDate() {
     // On effectue le tri sur listeTaches en comparant à chaque fois 2 elements du tableau entre  eux
     listeTaches.sort((a,b) => {
         let dateA = new Date(a.date) // On récupère la date de la tâche a
-        let dateB = new Date(b.date) // On récupère la date de la tâche b
-        console.log(triAscendant)  
+        let dateB = new Date(b.date) // On récupère la date de la tâche b 
         return triAscendant ? dateA - dateB : dateB - dateA // Condition ternaire pour gérer le tri si ascendant ou descendant
         // Suivant l'ordre de tri, on inverse les 2 tâches ou on ne fait rien  
     })
@@ -210,6 +209,9 @@ function triDate() {
 
     // Mise à jour de la variable globale
     triAscendant = !triAscendant
+
+    // Petite indication visuelle du tri par Echéance
+    // triAscendant ? mettreAJourTexteBoutonEcheance(0) : mettreAJourTexteBoutonEcheance(1)
 }
 
 /**
@@ -217,7 +219,6 @@ function triDate() {
  * @param {String} filtre 
  */
 function fliterStatut(filtre){
-
     // On récupère la liste des tâches affichées et leur données stockées pour y appliquer le filtrage
     let listeTaches = getTachesFromLocalStorage()
     let listeAffichée = document.getElementById('index-table-corps')
@@ -240,6 +241,72 @@ function fliterStatut(filtre){
     // Mise à jour de la variable globale
     filtreSt = filtre
 }
+
+/**
+ * Fonction qui permet le tri selon les différentes priorités des tâches
+ * @param {Number} ordre 
+ */
+function triPriorite(ordre) {
+    // On récupère la liste des tâches affichées et leur données stockées pour y appliquer le filtrage
+    let listeTaches = getTachesFromLocalStorage()
+    let listeAffichée = document.getElementById('index-table-corps')
+
+    // Changer l'état du tri à chaque clic (0 -> 1 -> 2 -> 0 -> ...)
+    // 0 : Pas de tri
+    // 1 : Tri de Elevée -> Moyenne -> Basse
+    // 2 : Tri de Basse -> Moyenne -> Elevée
+    etapeTriPriorite = (ordre + 1) % 3;
+
+    if (ordre === 0) {// Tri par défaut (non trié)
+        listeTaches = getTachesFromLocalStorage(); 
+    } else { // Tri selon la priorité (ascendant ou descendant)
+        // Variable locale pour pouvoir comparer les tâches avec sort()
+        const ordrePriorite = ["Elevée", "Moyenne", "Basse"];
+
+        //Sélection des 2 tâches à comparer
+        listeTaches.sort((a, b) => {
+            let indexA = ordrePriorite.indexOf(a.priorite);
+            let indexB = ordrePriorite.indexOf(b.priorite);
+            
+            // Tri ascendant ou descendant selon la priorité
+            return ordre === 1 ? indexA - indexB : indexB - indexA;
+        });    
+    }
+
+    // On réaffiche la liste triée selon le bon paramètre
+    listeAffichée.innerHTML = "";
+    listeTaches.forEach(afficherTache);
+
+    // Petite indication visuelle du tri par priorité
+    // mettreAJourTexteBoutonPriorite(ordre)
+}
+
+
+/**
+ * J'ai commenté cess fonctions et leurs appels, car les filtrages se réinitialisent quand on veut en appliquer d'autres,
+ * or le texte lui ne change pas, ce qui induit l'utulisateur en erreur
+ */
+
+
+
+// /**
+//  * Fonction qui modifie le texte du bouton de tri pour un ajouter une indication visuelle
+//  * @param {Number} ordre 
+//  */
+// function mettreAJourTexteBoutonEcheance(ordre) {
+//     let textes = ["Tri : Echéance ↑", "Tri : Echéance ↓"];
+//     btnTriDate.textContent = textes[ordre];
+// }
+
+
+// /**
+//  * Fonction qui modifie le texte du bouton de tri pour un ajouter une indication visuelle
+//  * @param {Number} ordre 
+//  */
+// function mettreAJourTexteBoutonPriorite(ordre) {
+//     let textes = ["Priorité", "Tri : Priorité ↑", "Tri : Priorité ↓"];
+//     btnTriPriorite.textContent = textes[ordre];
+// }
 
 
 /**************************** Fonctionement principal ***************************/
@@ -269,4 +336,13 @@ let btnTriDate = document.getElementById("btn-tri-date")
 let triAscendant = true // Variable globale pour connaître la méthode de tri de la date (du plus récent ou plus ancien)
 btnTriDate.addEventListener("click", () => {
     triDate(triAscendant)
+})
+
+
+//On veut savoir quand l'utilisateur clique pour trier selon les différentes priorités
+let btnTriPriorite = document.getElementById("btn-tri-priorite")
+let etapeTriPriorite = 1 // Variable globale pour connaître la méthode de tri selon la priorité (Elevée ou Moyenne ou Basse ou pas d'ordre)
+
+btnTriPriorite.addEventListener("click", () => {
+    triPriorite(etapeTriPriorite)
 })
