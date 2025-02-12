@@ -2,6 +2,9 @@
  * 
  * Jeu de données pour la liste des taches
  * 
+ * 
+ * Pour retirer les valeurs par défaut, commenter cette ligne dans script.js
+ * loadTachesDef()
  *********************************************************************************/
 
 const tache1 = {titre: "Créer l'application", description: "Réaliser l'application de gestion des taches pour les tests d'admission au CEFIM", date: "2025-02-10", priorite: "Elevée"}

@@ -2,6 +2,7 @@
  * Balises
  */
 
+/* Balises englobates */
  html, body {
     height: 100%;
     margin: 0;
@@ -42,20 +43,15 @@ thead {
     background-color: rgb(230, 230, 230);
 }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-}
-
-.div-action {
-    display: flex;
-    justify-content: center;
-}
-
-
+/* Eléments simples*/
 em {
     font-size: 1.6em;
     font-style:  normal;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
 }
 
 img {
@@ -75,11 +71,21 @@ input, textarea {
     max-height: 300px;
 }
 
+
 /** 
  * Classes
  */
 
+/* Cases Titres et description des tâches */
+.th-titre {
+    max-width: 300px;
+}
 
+.td-desc {
+    max-width: 500px;
+}
+
+ /* Tables */
 .index-ajout-tache {
     max-width: 400px;
     min-width: fit-content;
@@ -109,6 +115,11 @@ input, textarea {
     justify-content: center;
 }
 
+.index-table-tri {
+    width: fit-content;
+}
+
+/* Boutons */
 .th-button {
     padding: 0;
 }
@@ -117,18 +128,15 @@ input, textarea {
     background-color: white;
 }
 
- .btn-filtre-tri {
+/* Boutons de filtrage */
+.btn-filtre-tri {
     all: unset;
     padding: 12px;
     margin: 0;
     text-align: left;
 }
 
-.index-table-tri {
-    width: fit-content;
-}
-
-
+/* Boutons d'ajout */
 .btnAjoutTache {
     background-color: #28a745;
     color: white;
@@ -138,6 +146,12 @@ input, textarea {
 
 .btnAjoutTache:hover {
     background-color: #218838;
+}
+
+/* Boutons de suppresion */
+.div-action {
+    display: flex;
+    justify-content: center;
 }
 
 .btn-suppr-tache {
@@ -154,7 +168,7 @@ input, textarea {
     background-color: rgb(199, 2, 2);
 }
 
-
+/* Fond tâches */
 .Basse {
     background-color: #bff3be;
 }
@@ -187,19 +201,10 @@ input, textarea {
     background-color: lightgray;
 }
 
-.th-titre {
-    max-width: 300px;
-}
-
-.td-desc {
-    max-width: 500px;
-}
-
 
 /** 
  * Responsive
  */
-
 
  /* En dessous de 1200 px */
  @media screen and (max-width: 1200px) {

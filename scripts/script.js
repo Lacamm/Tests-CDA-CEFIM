@@ -1,16 +1,13 @@
 /*********************************************************************************
- * 
- * Fichier qui contient toutes les fonctions utilisées par l'appli web
- * 
- *********************************************************************************/
+ *                                                                               * 
+ *     Fichier qui contient toutes les fonctions utilisées par l'appli web       *
+ *                                                                               * 
+ ********************************************************************************/
 
-
-
-/*********************************** Fonctions ***********************************/
+/*              Fonctions principales (création et affichage)                   */
 
 /**
- * Fonction qui permet de créer une tâche et de l'ajouter dans le tableau et l'enregistrer dans le 
- * localStorage
+ * Fonction qui permet de créer une tâche et de l'ajouter dans le tableau et l'enregistrer dans le localStorage
  */
 function creerTache() {
     try {
@@ -21,6 +18,7 @@ function creerTache() {
         let priorite = document.getElementById("index-form-priorite").value
         let statut = "En cours"
 
+        // On crée notre objet "Tache"
         let tache = {titre, description, date, priorite, statut}
         
         // Affichage de la tâche
@@ -35,7 +33,7 @@ function creerTache() {
         document.getElementById("index-form").reset()
 
     } catch(erreurCreationTache) {
-        console.log("Erreur lors de la creation de la tache")
+        console.log("Erreur lors de la creation de la tache") // Gestion de l'erreur pour la création de tâche
     }
 }
 
@@ -46,17 +44,18 @@ function creerTache() {
  * @param {Object} tache 
  */
 function afficherTache(tache) {
-    // On prépare la nouvelle balise
+    // On prépare la nouvelle balise à afficher
     let tacheHTML = document.createElement("tr")
-    tacheHTML.classList.add(tache.priorite) // gestion de la classe pour lui appliquer la couleur appropriée
+    tacheHTML.classList.add(tache.priorite) // gestion de la classe pour lui appliquer la couleur de fond appropriée
     
+    // On créé un élément select à part, pour pouvoir gérer plus facilement le statut
     statutSelect = document.createElement("select")
     statutSelect.classList.add("index-table-statut")
     statutSelect.innerHTML = `
         <option value="En cours">En cours</option>
         <option value="Terminée">Terminée</option>
     `
-    // On vérifie si on applique bien les bonnes valeurs et fonds de couleurs au chargement des tâches
+    // On vérifie si on applique bien les bonnes valeurs de statut et fonds de couleurs au chargement des tâches
     statutSelect.value = tache.statut || "En cours"
     changerFondTacheTerminee(tacheHTML, statutSelect.value, tache.priorite) 
 
@@ -94,6 +93,8 @@ function afficherTache(tache) {
 }
 
 
+/*                         Stockage et Mise à jour                             */
+
 /**
  * Fonction qui permet de récupérer la liste des tâches stockées localement
  * 
@@ -114,6 +115,23 @@ function chargerTaches() {
     })
 }
 
+
+/**
+ * Fonctione qui charge la liste par défaut des taches dans le localStorage, 
+ * pour qu'elles puissent avoir le même comportement que les autres
+ */
+function loadTachesDef() {
+    let listeTaches = getTachesFromLocalStorage()
+    if (listeTaches.length < 3 ) {
+        listeTaches.push(tache1)
+        listeTaches.push(tache2)
+        listeTaches.push(tache3)
+        localStorage.setItem("ListeTaches", JSON.stringify(listeTaches))
+    }
+}
+
+
+/*                         Actions sur les tâches                              */
 
 /**
  * Fonction qui supprime la tâche du LocalStorage et met à jour ce dernier
@@ -153,7 +171,7 @@ function changerFondTacheTerminee(tache, statut, priorite) {
 
 
 /**
- * 
+ * Fonction qui modifie dans le localStorage la valeur de statut d'une tâche
  * @param {Object} tache 
  * @param {String} nouveauStatut 
  */
@@ -173,20 +191,8 @@ function updateTacheTerminee(tacheModifiee, nouveauStatut) {
 }
 
 
-/**
- * Fonctione qui charge la liste par défaut des taches dans le localStorage, 
- * pour qu'elles puissent avoir le même comportement que les autres
- */
-function loadTachesDef() {
-    let listeTaches = getTachesFromLocalStorage()
-    if (listeTaches.length < 3 ) {
-        listeTaches.push(tache1)
-        listeTaches.push(tache2)
-        listeTaches.push(tache3)
-        localStorage.setItem("ListeTaches", JSON.stringify(listeTaches))
-    }
-}
-
+/*                              Filtrage et Tri                                */
+ 
 /**
  * Fonction qui permet de trier les tâches selon leur dates d'échéance
  */
@@ -214,33 +220,6 @@ function triDate() {
     // triAscendant ? mettreAJourTexteBoutonEcheance(0) : mettreAJourTexteBoutonEcheance(1)
 }
 
-/**
- * Fonction qui permet le filtrage suivant le statut des tâches
- * @param {String} filtre 
- */
-function fliterStatut(filtre){
-    // On récupère la liste des tâches affichées et leur données stockées pour y appliquer le filtrage
-    let listeTaches = getTachesFromLocalStorage()
-    let listeAffichée = document.getElementById('index-table-corps')
-
-    // On vide la liste affichée avant de la remplir à nouveau
-    listeAffichée.innerHTML = "" 
-
-    // On applique le nouveau filtre et réaffiche les tâche une à une si elles correspondent au filtre
-    if (filtre === "") {
-        filtre = "En cours"
-        listeTaches.filter(tache =>  tache.statut === filtre).forEach(afficherTache)
-    } else if (filtre === "En cours") {
-        filtre = "Terminée"
-        listeTaches.filter(tache =>  tache.statut === filtre).forEach(afficherTache)
-    }  else if (filtre === "Terminée") {
-        filtre = ""
-        listeTaches.forEach(afficherTache);
-    } 
-    
-    // Mise à jour de la variable globale
-    filtreSt = filtre
-}
 
 /**
  * Fonction qui permet le tri selon les différentes priorités des tâches
@@ -283,8 +262,39 @@ function triPriorite(ordre) {
 
 
 /**
+ * Fonction qui permet le filtrage suivant le statut des tâches
+ * @param {String} filtre 
+ */
+function fliterStatut(filtre){
+    // On récupère la liste des tâches affichées et leur données stockées pour y appliquer le filtrage
+    let listeTaches = getTachesFromLocalStorage()
+    let listeAffichée = document.getElementById('index-table-corps')
+
+    // On vide la liste affichée avant de la remplir à nouveau
+    listeAffichée.innerHTML = "" 
+
+    // On applique le nouveau filtre et réaffiche les tâche une à une si elles correspondent au filtre
+    if (filtre === "") {
+        filtre = "En cours"
+        listeTaches.filter(tache =>  tache.statut === filtre).forEach(afficherTache)
+    } else if (filtre === "En cours") {
+        filtre = "Terminée"
+        listeTaches.filter(tache =>  tache.statut === filtre).forEach(afficherTache)
+    }  else if (filtre === "Terminée") {
+        filtre = ""
+        listeTaches.forEach(afficherTache);
+    } 
+    
+    // Mise à jour de la variable globale
+    filtreSt = filtre
+}
+
+
+/*                          Amélioration visuelles                             */
+
+/**
  * J'ai commenté cess fonctions et leurs appels, car les filtrages se réinitialisent quand on veut en appliquer d'autres,
- * or le texte lui ne change pas, ce qui induit l'utulisateur en erreur
+ * or le texte lui ne change pas, ce qui induit l'utilisateur en erreur
  */
 
 
@@ -309,20 +319,28 @@ function triPriorite(ordre) {
 // }
 
 
-/**************************** Fonctionement principal ***************************/
+
+/*********************************************************************************
+ *                                                                               * 
+ *                             Fonctionement principal                           *
+ *                                                                               * 
+ ********************************************************************************/
 
 // On charge la liste par défaut des taches
 loadTachesDef()
 
+
 // On charge les tâches qui sont dans le LocalStorage au lancement de l'appli
 document.addEventListener("DOMContentLoaded", chargerTaches)
+
 
 // On veut vérifier quand l'utilisateur appuie sur le bouton pour ajouter une tache 
 let form = document.getElementById("index-form")
 form.addEventListener("submit", (event) => {
-    event.preventDefault() // On empêche le rechargement par défaut de la page
-    creerTache()// Gère la création d'une tâche
+    event.preventDefault() // On empêche le rechargement par défaut de la page, car c'est un event "submit"
+    creerTache()
 })
+
 
 // On veut savoir quand l'utilisateur appuie sur le bouton de filtrage par statut
 let btnFiltrage = document.getElementById("btn-filtre-statut")
@@ -330,6 +348,7 @@ let filtreSt = "" // Variable globale pour savoir sur quel filtre on est
 btnFiltrage.addEventListener("click", () => {
     fliterStatut(filtreSt)
 })
+
 
 // On veut savoir quand l'utilisateur clique sur le bouton pour trier par date
 let btnTriDate = document.getElementById("btn-tri-date")

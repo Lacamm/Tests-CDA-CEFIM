@@ -20,17 +20,17 @@
         <section class="index-getion-taches">
             <h2>Liste des tâches</h2>
             <table id="index-table-entete">
-                <thead>
+                <thead><!-- Entete -->
                     <tr>
                         <th>Titre</th>
                         <th>Description</th>
-                        <th class="th-button"><button type="button" id="btn-tri-date" class="btn-filtre-tri">Echéance</button></th>
-                        <th class="th-button"><button type="button" id="btn-tri-priorite" class="btn-filtre-tri">Priorité</button></th>
-                        <th class="th-button"><button type="button" id="btn-filtre-statut" class="btn-filtre-tri">Statut</button></th>
+                        <th class="th-button"><button type="button" id="btn-tri-date" class="btn-filtre-tri">Echéance</button></th><!-- Bouton de tri -->
+                        <th class="th-button"><button type="button" id="btn-tri-priorite" class="btn-filtre-tri">Priorité</button></th><!-- Bouton de tri -->
+                        <th class="th-button"><button type="button" id="btn-filtre-statut" class="btn-filtre-tri">Statut</button></th><!-- Bouton de filtrage -->
                         <th>Action</th><!-- Bouton de suppression -->
                     </tr>
                 </thead> 
-                <tbody id="index-table-corps">
+                <tbody id="index-table-corps"><!-- Corps -->
                     <!-- Ajout dynamique des tâches-->
                 </tbody>
             </table>
@@ -44,14 +44,17 @@
                     <div class="index-form-elem">
                         <label for="titre">Titre</label>
                         <input type="text" id="index-form-nom-tache" name="index-form-nom-tache" maxlength="100" autocomplete="off" placeholder="Nom de la tache" required>
+                        <!-- Titre obligatoire, de 100 caractères maximum et sans proposition de nom du navigateur-->
                     </div>
                     <div class="index-form-elem">
                         <label for="description">Description</label>
                         <textarea id="index-form-description-tache" name="index-description-nom-tache" maxlength="500" placeholder="Description"></textarea>
+                        <!-- Description optionnelle de 500 caractères maximum-->
                     </div>
                     <div class="index-form-elem">
                         <label for="echeance">Echéance</label>
                         <input type="date" id="index-form-echeance" name="index-form-echeance" required>
+                        <!-- Date obligatoire-->
                     </div>
                     <div class="index-form-elem">
                         <label for="priorite">Priorité</label>
@@ -60,6 +63,7 @@
                             <option value="Moyenne" selected>Moyenne</option>
                             <option value="Elevée">Elevée</option>
                         </select>
+                        <!-- Choix multiple de la priorité (obligatoire) avec "Moyenne" par défaut-->
                     </div>
                     <button type="submit" name="btnAjoutTache" class="btnAjoutTache">Ajouter</button>
                 </div>
